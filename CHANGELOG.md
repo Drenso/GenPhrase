@@ -5,6 +5,8 @@ CHANGELOG
 
   * New namespace: Drenso/GenPhrase
   * PHP bumped to >=8.3
+  * Random class now takes a RandomByteGeneratorInterface as byte generator
+  * Random bytes are now only generated using PHP random_bytes by default
 
 * 1.3.0 (???)
 

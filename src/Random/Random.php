@@ -33,16 +33,9 @@ class Random implements RandomInterface
    */
   protected $_powerOfTwo = 67108864;
 
-  /** @var RandomBytes */
-  protected $_randomByteGenerator;
-
-  public function __construct($randomByteGenerator = null)
-  {
-    if ($randomByteGenerator === null) {
-      $randomByteGenerator = new RandomBytes();
-    }
-    $this->_randomByteGenerator = $randomByteGenerator;
-
+  public function __construct(
+    protected readonly RandomByteGeneratorInterface $randomByteGenerator = new RandomByteGenerator(),
+  ) {
     try {
       $this->checkPowerOfTwo();
     } catch (InvalidArgumentException $e) {
@@ -120,12 +113,7 @@ class Random implements RandomInterface
      * to worry about "fixing" negative values.
      */
     do {
-      $test = $this->_randomByteGenerator->getRandomBytes($bytes);
-      if ($test === false) {
-        throw new RuntimeException('Could not get random bytes');
-      }
-
-      $result = hexdec(bin2hex($test)) & $mask;
+      $result = hexdec(bin2hex($this->randomByteGenerator->getBytes($bytes))) & $mask;
     } while ($result > $range);
 
     return $result % $poolSize;

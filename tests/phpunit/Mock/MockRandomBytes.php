@@ -1,23 +1,21 @@
 <?php
+
 namespace Drenso\GenPhrase\Tests\Mock;
 
+use Drenso\GenPhrase\Random\RandomByteGeneratorInterface;
+
 /**
- * MockRandomBytes.
- * 
- * Only used in testing.
- * 
- * @return string
  * @author timoh <timoh6@gmail.com>
  */
-class MockRandomBytes
+class MockRandomBytes implements RandomByteGeneratorInterface
 {
-    public function getRandomBytes($count)
-    {
-        static $number = 0;
+  public static int $number = 0;
 
-        $ret = $number;
-        $number++;
-        
-        return pack("N*", $ret);
-    }
+  public function getBytes(int $count): string
+  {
+    $ret = static::$number;
+    static::$number++;
+
+    return pack('N*', $ret);
+  }
 }
