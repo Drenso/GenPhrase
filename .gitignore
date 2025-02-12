@@ -1,0 +1,21 @@
+# PhpStorm
+.idea
+
+# Composer
+/composer.lock
+composer.phar
+
+# Vendor
+/vendor
+
+# PHP-CS-Fixer cache
+.php-cs-fixer.cache
+
+# Rector cache
+/var/cache/rector
+
+# PHPStan cache
+/var/cache/phpstan
+
+# PHP unit
+/.phpunit.cache

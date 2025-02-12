@@ -1,5 +1,5 @@
 <?php
-namespace GenPhrase\Random;
+namespace Drenso\GenPhrase\Tests\Mock;
 
 /**
  * MockRandomBytes.

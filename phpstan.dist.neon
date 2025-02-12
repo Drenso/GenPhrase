@@ -1,0 +1,9 @@
+includes:
+    - phpstan-baseline.php
+
+parameters:
+    level: 8
+    tmpDir: var/cache/phpstan
+    paths:
+        - src/
+        - tests/

@@ -1,29 +1,25 @@
 <?php
 
-namespace GenPhrase\Tests;
+namespace Drenso\GenPhrase\Tests;
 
-use GenPhrase\Random\Random;
-use GenPhrase\Random\MockRandomBytes;
+use Drenso\GenPhrase\Tests\Mock\MockRandomBytes;
+use Drenso\GenPhrase\Random\Random;
 use PHPUnit\Framework\TestCase;
 
 class GenPhraseRandomRandomTest extends TestCase
 {
-    /**
-    * @expectedException \InvalidArgumentException
-    */
-    public function testTooLowPoolSizeThrowsException()
+  public function testTooLowPoolSizeThrowsException()
     {
-        $obj = new Random();
+      $this->expectException(\InvalidArgumentException::class);
+      $obj = new Random();
 
         $obj->getElement(1);
     }
 
-    /**
-    * @expectedException \InvalidArgumentException
-    */
-    public function testTooHighPoolSizeThrowsException()
+  public function testTooHighPoolSizeThrowsException()
     {
-        $obj = new Random();
+      $this->expectException(\InvalidArgumentException::class);
+      $obj = new Random();
 
         $obj->getElement(1048577);
     }
@@ -55,32 +51,26 @@ class GenPhraseRandomRandomTest extends TestCase
         $this->assertEquals($poolSize, count($elements));
     }
 
-    /**
-    * @expectedException \InvalidArgumentException
-    */
-    public function testInvalidPowerOfTwoThrowsException()
+  public function testInvalidPowerOfTwoThrowsException()
     {
-        $obj = new Random();
+      $this->expectException(\InvalidArgumentException::class);
+      $obj = new Random();
 
         $obj->setPowerOfTwo(8);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
-    public function testSetTooHighPowerOfTwoThrowsException()
+  public function testSetTooHighPowerOfTwoThrowsException()
     {
-        $obj = new Random();
+      $this->expectException(\InvalidArgumentException::class);
+      $obj = new Random();
 
         $obj->setPowerOfTwo(67108865);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
-    public function testSetTooHighMaxPoolSizeThrowsException()
+  public function testSetTooHighMaxPoolSizeThrowsException()
     {
-        $obj = new Random();
+      $this->expectException(\InvalidArgumentException::class);
+      $obj = new Random();
 
         $obj->setMaxPoolSize(1048577);
     }

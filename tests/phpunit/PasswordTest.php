@@ -1,9 +1,10 @@
 <?php
 
-namespace GenPhrase\Tests;
+namespace Drenso\GenPhrase\Tests;
 
-use GenPhrase\Password;
-use GenPhrase\WordlistHandler\Filesystem;
+use Drenso\GenPhrase\Password;
+use Drenso\GenPhrase\WordlistHandler\Filesystem;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class GenPhrasePasswordTest extends TestCase
@@ -24,7 +25,7 @@ class GenPhrasePasswordTest extends TestCase
 
     public function testConstructWithoutArguments()
     {
-        $this->assertInstanceOf('GenPhrase\\Password', new Password());
+      $this->assertInstanceOf('Drenso\\GenPhrase\\Password', new Password());
     }
 
     public function testGetDefaultSeparators()
@@ -64,9 +65,9 @@ class GenPhrasePasswordTest extends TestCase
     {
         $obj = new Password();
 
-        $this->assertInstanceOf('GenPhrase\\WordlistHandler\\Filesystem', $obj->getWordlistHandler());
-        $this->assertInstanceOf('GenPhrase\\WordModifier\\MbToggleCaseFirst', $obj->getWordmodifier());
-        $this->assertInstanceOf('GenPhrase\\Random\\Random', $obj->getRandomProvider());
+      $this->assertInstanceOf('Drenso\\GenPhrase\\WordlistHandler\\Filesystem', $obj->getWordlistHandler());
+      $this->assertInstanceOf('Drenso\\GenPhrase\\WordModifier\\MbToggleCaseFirst', $obj->getWordmodifier());
+      $this->assertInstanceOf('Drenso\\GenPhrase\\Random\\Random', $obj->getRandomProvider());
     }
 
     public function testGenerateReturnsNonEmptyString()
@@ -74,49 +75,41 @@ class GenPhrasePasswordTest extends TestCase
         $obj = new Password();
         $password = $obj->generate(30);
 
-        $this->assertInternalType('string', $password);
+        $this->assertIsString($password);
         $this->assertGreaterThan(0, strlen($password));
     }
 
-    /**
-    * @expectedException \InvalidArgumentException
-    */
-    public function testGenerateWithLowBitsThrowsException()
+  public function testGenerateWithLowBitsThrowsException()
     {
-        $obj = new Password();
+      $this->expectException(\InvalidArgumentException::class);
+      $obj = new Password();
         $obj->generate($this->entropyLowBits);
     }
 
-    /**
-    * @expectedException \InvalidArgumentException
-    */
-    public function testGenerateWithHighBitsThrowsException()
+  public function testGenerateWithHighBitsThrowsException()
     {
-        $obj = new Password();
+      $this->expectException(\InvalidArgumentException::class);
+      $obj = new Password();
         $obj->generate($this->entropyHighBits);
     }
 
-    /**
-     * @expectedException \RuntimeException
-     */
-    public function testNotEnoughWordsThrowsException()
+  public function testNotEnoughWordsThrowsException()
     {
-        $wordlistHandler = $this->createMock('GenPhrase\\WordlistHandler\\Filesystem');
+      $this->expectException(\RuntimeException::class);
+      $wordlistHandler = $this->createMock('Drenso\\GenPhrase\\WordlistHandler\\Filesystem');
         $wordlistHandler
             ->expects($this->any())
             ->method('getWordsAsArray')
-            ->will($this->returnValue(array('a')));
+            ->willReturn(['a']);
 
         $obj = new Password($wordlistHandler);
         $obj->generate();
     }
 
-    /**
-     * @expectedException \RuntimeException
-     */
-    public function testNotEnoughUniqueWordsThrowsException()
+  public function testNotEnoughUniqueWordsThrowsException()
     {
-        $path = dirname(dirname(dirname(__FILE__))) . DIRECTORY_SEPARATOR . 'Data' . DIRECTORY_SEPARATOR . 'Wordlist' . DIRECTORY_SEPARATOR . 'dublicate_words.lst';
+      $this->expectException(\RuntimeException::class);
+      $path = dirname(dirname(dirname(__FILE__))) . DIRECTORY_SEPARATOR . 'Data' . DIRECTORY_SEPARATOR . 'Wordlist' . DIRECTORY_SEPARATOR . 'dublicate_words.lst';
         $wordlistHandler = new Filesystem(array('path' => $path, 'identifier' => 'test'));
 
         $obj = new Password($wordlistHandler);
@@ -125,27 +118,27 @@ class GenPhrasePasswordTest extends TestCase
 
     public function testGenerateReturnsExpectedStrings()
     {
-        $wordlistHandler = $this->createMock('GenPhrase\\WordlistHandler\\Filesystem');
+        $wordlistHandler = $this->createMock('Drenso\\GenPhrase\\WordlistHandler\\Filesystem');
         $wordlistHandler
             ->expects($this->any())
             ->method('getWordsAsArray')
-            ->will($this->returnValue($this->testWords));
+            ->willReturn($this->testWords);
 
-        $wordModifier = $this->createMock('GenPhrase\\WordModifier\\MbToggleCaseFirst');
+        $wordModifier = $this->createMock('Drenso\\GenPhrase\\WordModifier\\MbToggleCaseFirst');
         $wordModifier
             ->expects($this->any())
             ->method('modify')
-            ->will($this->returnValue('test'));
+            ->willReturn('test');
         $wordModifier
             ->expects($this->any())
             ->method('getWordCountMultiplier')
-            ->will($this->returnValue(1));
+            ->willReturn(1);
 
-        $randomProvider = $this->createMock('GenPhrase\\Random\\Random');
+        $randomProvider = $this->createMock('Drenso\\GenPhrase\\Random\\Random');
         $randomProvider
             ->expects($this->any())
             ->method('getElement')
-            ->will($this->returnValue(0));
+            ->willReturn(0);
 
         $obj = new Password($wordlistHandler, $wordModifier, $randomProvider);
         $obj->disableSeparators(true);
@@ -160,7 +153,7 @@ class GenPhrasePasswordTest extends TestCase
         $this->assertEquals('test test test test test test test test test test test test', $password);
     }
 
-    public function makesSenseToUseSeparatorsDataProvider()
+    public static function makesSenseToUseSeparatorsDataProvider()
     {
         return array(
             array(26, 13, 4, false),
@@ -178,9 +171,7 @@ class GenPhrasePasswordTest extends TestCase
         );
     }
 
-    /**
-     * @dataProvider makesSenseToUseSeparatorsDataProvider
-     */
+    #[DataProvider('makesSenseToUseSeparatorsDataProvider')]
     public function testMakesSenseToUseSeparators($bits, $wordBits, $separatorBits, $shouldUse)
     {
         $obj = new Password();
@@ -190,27 +181,27 @@ class GenPhrasePasswordTest extends TestCase
 
     public function testAlwaysUseSeparators()
     {
-        $wordlistHandler = $this->createMock('GenPhrase\\WordlistHandler\\Filesystem');
+        $wordlistHandler = $this->createMock('Drenso\\GenPhrase\\WordlistHandler\\Filesystem');
         $wordlistHandler
             ->expects($this->any())
             ->method('getWordsAsArray')
-            ->will($this->returnValue($this->testWords));
+            ->willReturn($this->testWords);
 
-        $wordModifier = $this->createMock('GenPhrase\\WordModifier\\MbToggleCaseFirst');
+        $wordModifier = $this->createMock('Drenso\\GenPhrase\\WordModifier\\MbToggleCaseFirst');
         $wordModifier
             ->expects($this->any())
             ->method('modify')
-            ->will($this->returnValue('test'));
+            ->willReturn('test');
         $wordModifier
             ->expects($this->any())
             ->method('getWordCountMultiplier')
-            ->will($this->returnValue(1));
+            ->willReturn(1);
 
-        $randomProvider = $this->createMock('GenPhrase\\Random\\Random');
+        $randomProvider = $this->createMock('Drenso\\GenPhrase\\Random\\Random');
         $randomProvider
             ->expects($this->any())
             ->method('getElement')
-            ->will($this->returnValue(0));
+            ->willReturn(0);
 
         $obj = new Password($wordlistHandler, $wordModifier, $randomProvider);
         $obj->setSeparators('$');
@@ -235,18 +226,16 @@ class GenPhrasePasswordTest extends TestCase
 		$this->assertEquals('123456', $obj->getSeparators());
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
-	public function testEmptySeparatorsThowsException()
+  public function testEmptySeparatorsThowsException()
 	{
-		$obj = new Password();
+    $this->expectException(\InvalidArgumentException::class);
+    $obj = new Password();
 
 		$obj->setSeparators('');
 		$obj->generate();
     }
 
-    public function precisionFloatIsNotRoundingDataProvider()
+    public static function precisionFloatIsNotRoundingDataProvider()
     {
         return array(
             array(log(49667, 2), 15.59),
@@ -255,9 +244,7 @@ class GenPhrasePasswordTest extends TestCase
         );
     }
 
-    /**
-     * @dataProvider precisionFloatIsNotRoundingDataProvider
-     */
+    #[DataProvider('precisionFloatIsNotRoundingDataProvider')]
     public function testPrecisionFloatIsNotRounding($precision, $expectedValue)
     {
         $obj = new Password();

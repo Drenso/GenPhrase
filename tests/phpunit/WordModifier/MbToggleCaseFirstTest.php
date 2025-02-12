@@ -1,8 +1,8 @@
 <?php
 
-namespace GenPhrase\Tests;
+namespace Drenso\GenPhrase\Tests;
 
-use GenPhrase\WordModifier\MbToggleCaseFirst;
+use Drenso\GenPhrase\WordModifier\MbToggleCaseFirst;
 use PHPUnit\Framework\TestCase;
 
 class GenPhraseWordModifierMbToggleCaseFirstTest extends TestCase
@@ -12,11 +12,11 @@ class GenPhraseWordModifierMbToggleCaseFirstTest extends TestCase
         $word = 'äbcd';
         $expected = 'Äbcd';
 
-        $randomProvider = $this->createMock('GenPhrase\\Random\\Random');
+        $randomProvider = $this->createMock('Drenso\\GenPhrase\\Random\\Random');
         $randomProvider
             ->expects($this->once())
             ->method('getElement')
-            ->will($this->returnValue(0));
+            ->willReturn(0);
 
         $obj = new MbToggleCaseFirst($randomProvider);
         $test = $obj->modify($word);
@@ -29,11 +29,11 @@ class GenPhraseWordModifierMbToggleCaseFirstTest extends TestCase
         $word = 'Äbcd';
         $expected = 'äbcd';
 
-        $randomProvider = $this->createMock('GenPhrase\\Random\\Random');
+        $randomProvider = $this->createMock('Drenso\\GenPhrase\\Random\\Random');
         $randomProvider
             ->expects($this->once())
             ->method('getElement')
-            ->will($this->returnValue(0));
+            ->willReturn(0);
 
         $obj = new MbToggleCaseFirst($randomProvider);
         $test = $obj->modify($word);

@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+* 2.0.0
+
+  * New namespace: Drenso/GenPhrase
+  * PHP bumped to >=8.3
+
 * 1.3.0 (???)
 
   * Allow 1048576 as max. word list size.
