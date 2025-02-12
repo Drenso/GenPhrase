@@ -7,9 +7,9 @@ namespace Drenso\GenPhrase\WordlistHandler;
  */
 interface WordlistHandlerInterface
 {
-  public function getWordsAsArray();
+  public function getWordsAsArray(): array;
 
-  public function addWordlist($path, $identifier);
+  public function addWordlist(string $path, string $identifier): void;
 
-  public function removeWordlist($identifier);
+  public function removeWordlist(string $identifier): void;
 }

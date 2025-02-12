@@ -11,36 +11,26 @@ use RuntimeException;
  */
 class Random implements RandomInterface
 {
-  public const MAX_ALLOWED_POOL_SIZE    = 1048576;
-  public const MAX_ALLOWED_POWER_OF_TWO = 67108864;
+  public const int MAX_ALLOWED_POOL_SIZE    = 1048576;
+  public const int MAX_ALLOWED_POWER_OF_TWO = 67108864;
 
-  /**
-   * Must be <= $_powerOfTwo. See below.
-   *
-   * @var int
-   */
-  protected $_maxPoolSize = 1048576;
+  /** Must be <= $powerOfTwo. See below. */
+  protected int $maxPoolSize = 1048576;
 
   /**
    * Must be a power of two, for example 2^26 (67 108 864). In the security
-   * point of view, must be >= $_maxPoolSize. In the efficiency point of view,
-   * should be considerably greater than $_maxPoolSize. As we default to
-   * 1048576 $_maxPoolSize (which should be now finally easily enough for wordlists), using
-   * 2^26 as our $_powerOfTwo should be enough to keep the probability of
+   * point of view, must be >= $maxPoolSize. In the efficiency point of view,
+   * should be considerably greater than $maxPoolSize. As we default to
+   * 1048576 $maxPoolSize (which should be now finally easily enough for wordlists), using
+   * 2^26 as our $powerOfTwo should be enough to keep the probability of
    * having to throw "intermediate" results away low.
-   *
-   * @var int
    */
-  protected $_powerOfTwo = 67108864;
+  protected int $powerOfTwo = 67108864;
 
   public function __construct(
     protected readonly RandomByteGeneratorInterface $randomByteGenerator = new RandomByteGenerator(),
   ) {
-    try {
-      $this->checkPowerOfTwo();
-    } catch (InvalidArgumentException $e) {
-      throw $e;
-    }
+    $this->checkPowerOfTwo();
   }
 
   /**
@@ -56,13 +46,13 @@ class Random implements RandomInterface
    *
    * @param int $poolSize size of the pool to choose from
    *
-   * @throws InvalidArgumentException if provided $poolSize is not between 2 and $_maxPoolSize
+   * @throws InvalidArgumentException if provided $poolSize is not between 2 and $maxPoolSize
    * @throws RangeException           if the supplied range is too great to generate
    * @throws RuntimeException         if it was not possible to generate random bytes
    *
    * @return int the generated random number within the pool size
    */
-  public function getElement($poolSize)
+  public function getElement(int $poolSize): int
   {
     /**
      * The general formulation to choose a random element is to find the
@@ -74,13 +64,12 @@ class Random implements RandomInterface
      * and Kohno. Which reduces the probability of having to throw the
      * intermediate result away (the case where $result >= $poolSize).
      */
-    $poolSize = (int)$poolSize;
-    if ($poolSize < 2 || $poolSize > $this->_maxPoolSize) {
-      throw new InvalidArgumentException('$poolSize must be between 2 and ' . $this->_maxPoolSize);
+    if ($poolSize < 2 || $poolSize > $this->maxPoolSize) {
+      throw new InvalidArgumentException('$poolSize must be between 2 and ' . $this->maxPoolSize);
     }
 
     // Floor it by casting to int.
-    $q     = (int)($this->_powerOfTwo / $poolSize);
+    $q     = (int)($this->powerOfTwo / $poolSize);
     $range = $poolSize * $q - 1;
 
     if ($range > PHP_INT_MAX || is_float($range)) {
@@ -91,7 +80,7 @@ class Random implements RandomInterface
     $bits = (int)log($range, 2) + 1;
 
     $bytes = (int)max(ceil($bits / 8), 1);
-    $mask  = (int)(pow(2, $bits) - 1);
+    $mask  = 2 ** $bits - 1;
     /*
      * We borrow here the "mask trick" from PHP-CryptLib, see:
      * https://github.com/ircmaxell/PHP-CryptLib
@@ -119,21 +108,14 @@ class Random implements RandomInterface
     return $result % $poolSize;
   }
 
-  /**
-   * @param int $powerOfTwo
-   * @param int $maxPoolSize
-   *
-   * @throws InvalidArgumentException if $maxPoolSize is greater than $powerOfTwo or supplied $powerOfTwo is not a power of two or if either $powerOfTwo or $maxPoolSize is greater than their allowed max size
-   *
-   * @return bool
-   */
-  public function checkPowerOfTwo($powerOfTwo = null, $maxPoolSize = null)
+  /** @throws InvalidArgumentException if $maxPoolSize is greater than $powerOfTwo or supplied $powerOfTwo is not a power of two or if either $powerOfTwo or $maxPoolSize is greater than their allowed max size */
+  public function checkPowerOfTwo(?int $powerOfTwo = null, ?int $maxPoolSize = null): bool
   {
-    $maxPoolSize = $maxPoolSize === null ? $this->_maxPoolSize : $maxPoolSize;
-    $powerOfTwo  = $powerOfTwo === null ? $this->_powerOfTwo : $powerOfTwo;
+    $maxPoolSize ??= $this->maxPoolSize;
+    $powerOfTwo  ??= $this->powerOfTwo;
 
     if ($maxPoolSize > $powerOfTwo) {
-      throw new InvalidArgumentException('$_powerOfTwo must be >= $_maxPoolSize');
+      throw new InvalidArgumentException('$powerOfTwo must be >= $maxPoolSize');
     }
 
     if ($maxPoolSize > self::MAX_ALLOWED_POOL_SIZE) {
@@ -144,45 +126,23 @@ class Random implements RandomInterface
       throw new InvalidArgumentException('$powerOfTwo can not be greater than ' . self::MAX_ALLOWED_POWER_OF_TWO);
     }
 
-    $isPowerOfTwo = (bool)($powerOfTwo && !($powerOfTwo & ($powerOfTwo - 1)));
+    $isPowerOfTwo = $powerOfTwo && !($powerOfTwo & ($powerOfTwo - 1));
     if ($isPowerOfTwo === false) {
-      throw new InvalidArgumentException('Supplied $_powerOfTwo is not a power of two');
+      throw new InvalidArgumentException('Supplied $powerOfTwo is not a power of two');
     }
 
     return true;
   }
 
-  /**
-   * @param int $powerOfTwo
-   *
-   * @throws InvalidArgumentException
-   */
-  public function setPowerOfTwo($powerOfTwo)
+  public function setPowerOfTwo(int $powerOfTwo): void
   {
-    $powerOfTwo = (int)$powerOfTwo;
-
-    try {
-      $this->checkPowerOfTwo($powerOfTwo);
-      $this->_powerOfTwo = $powerOfTwo;
-    } catch (InvalidArgumentException $e) {
-      throw $e;
-    }
+    $this->checkPowerOfTwo($powerOfTwo);
+    $this->powerOfTwo = $powerOfTwo;
   }
 
-  /**
-   * @param int $maxPoolSize
-   *
-   * @throws InvalidArgumentException
-   */
-  public function setMaxPoolSize($maxPoolSize)
+  public function setMaxPoolSize(int $maxPoolSize): void
   {
-    $maxPoolSize = (int)$maxPoolSize;
-
-    try {
-      $this->checkPowerOfTwo(null, $maxPoolSize);
-      $this->_maxPoolSize = $maxPoolSize;
-    } catch (InvalidArgumentException $e) {
-      throw $e;
-    }
+    $this->checkPowerOfTwo(null, $maxPoolSize);
+    $this->maxPoolSize = $maxPoolSize;
   }
 }

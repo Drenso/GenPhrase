@@ -14,5 +14,5 @@ interface RandomInterface
    *
    * @return int The generated random number within the $poolSize
    */
-  public function getElement($poolSize);
+  public function getElement(int $poolSize): int;
 }

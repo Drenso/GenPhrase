@@ -7,7 +7,7 @@ namespace Drenso\GenPhrase\WordModifier;
  */
 interface WordModifierInterface
 {
-  public function modify($string, $encoding);
+  public function modify(string $string, string $encoding): string;
 
-  public function getWordCountMultiplier();
+  public function getWordCountMultiplier(): int;
 }
