@@ -54,6 +54,12 @@ composer-unused:
     - tags
     - master
 
+phpunit:
+  except:
+    - schedules
+    - tags
+    - master
+
 deploy-staging:
   rules:
     - if: $CI_PIPELINE_SOURCE == "schedule" || $CI_PIPELINE_SOURCE == "merge_request_event"
