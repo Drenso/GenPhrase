@@ -72,13 +72,14 @@ class Random implements RandomInterface
     $q     = (int)($this->powerOfTwo / $poolSize);
     $range = $poolSize * $q - 1;
 
-    if ($range > PHP_INT_MAX || is_float($range)) {
+    if ($range > PHP_INT_MAX) {
       throw new RangeException('The supplied range is too great to generate');
     }
 
     // Floor it by casting to int.
     $bits = (int)log($range, 2) + 1;
 
+    /** @var int<1, max> $bytes */
     $bytes = (int)max(ceil($bits / 8), 1);
     $mask  = 2 ** $bits - 1;
     /*

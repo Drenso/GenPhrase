@@ -231,6 +231,6 @@ class Password
    */
   public function precisionFloat(int|float $num): float
   {
-    return (float)bcadd($num, '0', 2);
+    return (float)bcadd((string)$num, '0', 2);
   }
 }

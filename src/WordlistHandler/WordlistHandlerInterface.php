@@ -7,6 +7,7 @@ namespace Drenso\GenPhrase\WordlistHandler;
  */
 interface WordlistHandlerInterface
 {
+  /** @return list<string> */
   public function getWordsAsArray(): array;
 
   public function addWordlist(string $path, string $identifier): void;

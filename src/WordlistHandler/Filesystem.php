@@ -12,14 +12,22 @@ class Filesystem implements WordlistHandlerInterface
   /**
    * List of wordlists as a key-value array.
    * E.g. $wordlists['default'] = '/path/to/GenPhrase/Wordlists/english.lst';.
+   *
+   * @var array<string, string>
    */
   protected array $wordlists = [];
 
   protected static bool $isCached = false;
 
+  /** @var list<string> */
   protected static array $words = [];
 
-  /** @param array $wordlist e.g. array('path' => '/some/path/to/wordlist', 'identifier' => 'some_id'). */
+  /**
+   * @param null|array{
+   *   path: string,
+   *   identifier: string,
+   * } $wordlist e.g. array('path' => '/some/path/to/wordlist', 'identifier' => 'some_id').
+   */
   public function __construct(?array $wordlist = null)
   {
     // Default to english.lst
@@ -50,7 +58,7 @@ class Filesystem implements WordlistHandlerInterface
 
     foreach ($this->wordlists as $file) {
       if (file_exists($file) && is_readable($file)) {
-        $wordSet = $this->_readData($file);
+        $wordSet = $this->readData($file);
 
         if ($wordSet !== false) {
           self::$words = array_merge(self::$words, $wordSet);
@@ -101,7 +109,8 @@ class Filesystem implements WordlistHandlerInterface
     self::$isCached = $isCached;
   }
 
-  protected function _readData(string $file): array|false
+  /** @return false|list<string> */
+  protected function readData(string $file): array|false
   {
     return file($file, FILE_IGNORE_NEW_LINES|FILE_SKIP_EMPTY_LINES);
   }
