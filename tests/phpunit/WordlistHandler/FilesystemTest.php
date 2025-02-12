@@ -5,9 +5,9 @@ namespace Drenso\GenPhrase\Tests;
 use Drenso\GenPhrase\WordlistHandler\Filesystem;
 use PHPUnit\Framework\TestCase;
 
-class GenPhraseWordlistHandlerFilesystemTest extends TestCase
+class FilesystemTest extends TestCase
 {
-  public function testContainsNoDuplicates()
+  public function testContainsNoDuplicates(): void
   {
     $path = dirname(dirname(dirname(__FILE__))) . DIRECTORY_SEPARATOR . 'wordlists' . DIRECTORY_SEPARATOR . 'dublicate_words.lst';
     $obj  = new Filesystem(['path' => $path, 'identifier' => 'test']);
@@ -17,7 +17,7 @@ class GenPhraseWordlistHandlerFilesystemTest extends TestCase
     $this->assertCount(3, $returnedWords);
   }
 
-  public function testCanAddWordlist()
+  public function testCanAddWordlist(): void
   {
     $path  = dirname(dirname(dirname(__FILE__))) . DIRECTORY_SEPARATOR . 'wordlists' . DIRECTORY_SEPARATOR . 'dublicate_words.lst';
     $path2 = dirname(dirname(dirname(__FILE__))) . DIRECTORY_SEPARATOR . 'wordlists' . DIRECTORY_SEPARATOR . 'two_words.lst';

@@ -7,9 +7,9 @@ use Drenso\GenPhrase\Tests\Mock\MockRandomBytes;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
-class GenPhraseRandomRandomTest extends TestCase
+class RandomTest extends TestCase
 {
-  public function testTooLowPoolSizeThrowsException()
+  public function testTooLowPoolSizeThrowsException(): void
   {
     $this->expectException(InvalidArgumentException::class);
     $obj = new Random();
@@ -17,7 +17,7 @@ class GenPhraseRandomRandomTest extends TestCase
     $obj->getElement(1);
   }
 
-  public function testTooHighPoolSizeThrowsException()
+  public function testTooHighPoolSizeThrowsException(): void
   {
     $this->expectException(InvalidArgumentException::class);
     $obj = new Random();
@@ -25,7 +25,7 @@ class GenPhraseRandomRandomTest extends TestCase
     $obj->getElement(1048577);
   }
 
-  public function testGetElementGivesUniformDistribution()
+  public function testGetElementGivesUniformDistribution(): void
   {
     $poolSize = 7776;
     $elements = [];
@@ -48,7 +48,7 @@ class GenPhraseRandomRandomTest extends TestCase
     $this->assertEquals($poolSize, count($elements));
   }
 
-  public function testInvalidPowerOfTwoThrowsException()
+  public function testInvalidPowerOfTwoThrowsException(): void
   {
     $this->expectException(InvalidArgumentException::class);
     $obj = new Random();
@@ -56,7 +56,7 @@ class GenPhraseRandomRandomTest extends TestCase
     $obj->setPowerOfTwo(8);
   }
 
-  public function testSetTooHighPowerOfTwoThrowsException()
+  public function testSetTooHighPowerOfTwoThrowsException(): void
   {
     $this->expectException(InvalidArgumentException::class);
     $obj = new Random();
@@ -64,7 +64,7 @@ class GenPhraseRandomRandomTest extends TestCase
     $obj->setPowerOfTwo(67108865);
   }
 
-  public function testSetTooHighMaxPoolSizeThrowsException()
+  public function testSetTooHighMaxPoolSizeThrowsException(): void
   {
     $this->expectException(InvalidArgumentException::class);
     $obj = new Random();

@@ -5,9 +5,9 @@ namespace Drenso\GenPhrase\Tests;
 use Drenso\GenPhrase\WordModifier\MbToggleCaseFirst;
 use PHPUnit\Framework\TestCase;
 
-class GenPhraseWordModifierMbToggleCaseFirstTest extends TestCase
+class MbToggleCaseFirstTest extends TestCase
 {
-  public function testModifyCapitalizes()
+  public function testModifyCapitalizes(): void
   {
     $word     = 'äbcd';
     $expected = 'Äbcd';
@@ -24,7 +24,7 @@ class GenPhraseWordModifierMbToggleCaseFirstTest extends TestCase
     $this->assertEquals($expected, $test);
   }
 
-  public function testModifyLowers()
+  public function testModifyLowers(): void
   {
     $word     = 'Äbcd';
     $expected = 'äbcd';
