@@ -2,6 +2,7 @@
 
 namespace Drenso\GenPhrase\Tests;
 
+use Drenso\GenPhrase\Random\Random;
 use Drenso\GenPhrase\WordModifier\MbToggleCaseFirst;
 use PHPUnit\Framework\TestCase;
 
@@ -12,7 +13,7 @@ class MbToggleCaseFirstTest extends TestCase
     $word     = 'äbcd';
     $expected = 'Äbcd';
 
-    $randomProvider = $this->createMock('Drenso\\GenPhrase\\Random\\Random');
+    $randomProvider = $this->createMock(Random::class);
     $randomProvider
       ->expects($this->once())
       ->method('getElement')
@@ -29,7 +30,7 @@ class MbToggleCaseFirstTest extends TestCase
     $word     = 'Äbcd';
     $expected = 'äbcd';
 
-    $randomProvider = $this->createMock('Drenso\\GenPhrase\\Random\\Random');
+    $randomProvider = $this->createMock(Random::class);
     $randomProvider
       ->expects($this->once())
       ->method('getElement')

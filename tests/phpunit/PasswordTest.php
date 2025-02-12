@@ -3,7 +3,9 @@
 namespace Drenso\GenPhrase\Tests;
 
 use Drenso\GenPhrase\Password;
+use Drenso\GenPhrase\Random\Random;
 use Drenso\GenPhrase\WordlistHandler\Filesystem;
+use Drenso\GenPhrase\WordModifier\MbToggleCaseFirst;
 use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
@@ -29,7 +31,7 @@ class PasswordTest extends TestCase
 
   public function testConstructWithoutArguments(): void
   {
-    $this->assertInstanceOf('Drenso\\GenPhrase\\Password', new Password());
+    $this->assertInstanceOf(Password::class, new Password());
   }
 
   public function testGetDefaultSeparators(): void
@@ -69,9 +71,9 @@ class PasswordTest extends TestCase
   {
     $obj = new Password();
 
-    $this->assertInstanceOf('Drenso\\GenPhrase\\WordlistHandler\\Filesystem', $obj->getWordlistHandler());
-    $this->assertInstanceOf('Drenso\\GenPhrase\\WordModifier\\MbToggleCaseFirst', $obj->getWordmodifier());
-    $this->assertInstanceOf('Drenso\\GenPhrase\\Random\\Random', $obj->getRandomProvider());
+    $this->assertInstanceOf(Filesystem::class, $obj->getWordlistHandler());
+    $this->assertInstanceOf(MbToggleCaseFirst::class, $obj->getWordmodifier());
+    $this->assertInstanceOf(Random::class, $obj->getRandomProvider());
   }
 
   public function testGenerateReturnsNonEmptyString(): void
@@ -99,7 +101,7 @@ class PasswordTest extends TestCase
   public function testNotEnoughWordsThrowsException(): void
   {
     $this->expectException(RuntimeException::class);
-    $wordlistHandler = $this->createMock('Drenso\\GenPhrase\\WordlistHandler\\Filesystem');
+    $wordlistHandler = $this->createMock(Filesystem::class);
     $wordlistHandler
       ->expects($this->any())
       ->method('getWordsAsArray')
@@ -112,7 +114,7 @@ class PasswordTest extends TestCase
   public function testNotEnoughUniqueWordsThrowsException(): void
   {
     $this->expectException(RuntimeException::class);
-    $path            = dirname(dirname(dirname(__FILE__))) . DIRECTORY_SEPARATOR . 'Data' . DIRECTORY_SEPARATOR . 'Wordlist' . DIRECTORY_SEPARATOR . 'dublicate_words.lst';
+    $path            = dirname(__FILE__, 3) . DIRECTORY_SEPARATOR . 'Data' . DIRECTORY_SEPARATOR . 'Wordlist' . DIRECTORY_SEPARATOR . 'dublicate_words.lst';
     $wordlistHandler = new Filesystem(['path' => $path, 'identifier' => 'test']);
 
     $obj = new Password($wordlistHandler);
@@ -121,13 +123,13 @@ class PasswordTest extends TestCase
 
   public function testGenerateReturnsExpectedStrings(): void
   {
-    $wordlistHandler = $this->createMock('Drenso\\GenPhrase\\WordlistHandler\\Filesystem');
+    $wordlistHandler = $this->createMock(Filesystem::class);
     $wordlistHandler
       ->expects($this->any())
       ->method('getWordsAsArray')
       ->willReturn($this->testWords);
 
-    $wordModifier = $this->createMock('Drenso\\GenPhrase\\WordModifier\\MbToggleCaseFirst');
+    $wordModifier = $this->createMock(MbToggleCaseFirst::class);
     $wordModifier
       ->expects($this->any())
       ->method('modify')
@@ -137,7 +139,7 @@ class PasswordTest extends TestCase
       ->method('getWordCountMultiplier')
       ->willReturn(1);
 
-    $randomProvider = $this->createMock('Drenso\\GenPhrase\\Random\\Random');
+    $randomProvider = $this->createMock(Random::class);
     $randomProvider
       ->expects($this->any())
       ->method('getElement')
@@ -185,13 +187,13 @@ class PasswordTest extends TestCase
 
   public function testAlwaysUseSeparators(): void
   {
-    $wordlistHandler = $this->createMock('Drenso\\GenPhrase\\WordlistHandler\\Filesystem');
+    $wordlistHandler = $this->createMock(Filesystem::class);
     $wordlistHandler
       ->expects($this->any())
       ->method('getWordsAsArray')
       ->willReturn($this->testWords);
 
-    $wordModifier = $this->createMock('Drenso\\GenPhrase\\WordModifier\\MbToggleCaseFirst');
+    $wordModifier = $this->createMock(MbToggleCaseFirst::class);
     $wordModifier
       ->expects($this->any())
       ->method('modify')
@@ -201,7 +203,7 @@ class PasswordTest extends TestCase
       ->method('getWordCountMultiplier')
       ->willReturn(1);
 
-    $randomProvider = $this->createMock('Drenso\\GenPhrase\\Random\\Random');
+    $randomProvider = $this->createMock(Random::class);
     $randomProvider
       ->expects($this->any())
       ->method('getElement')
