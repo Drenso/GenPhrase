@@ -1,9 +1,11 @@
 About
 =====
 
-[![Packagist](https://img.shields.io/packagist/v/genphrase/genphrase.svg)](https://packagist.org/packages/genphrase/genphrase)
+[![Packagist](https://img.shields.io/packagist/v/drenso/genphrase.svg)](https://packagist.org/packages/genphrase/genphrase)
 [![License](https://img.shields.io/github/license/mashape/apistatus.svg)](LICENSE)
-[![Build Status](https://secure.travis-ci.org/timoh6/GenPhrase.png)](http://travis-ci.org/timoh6/GenPhrase)
+
+> This library has been forked from [timoh6/GenPhrase](https://github.com/timoh6/GenPhrase)
+> and has been updated for modern PHP.
 
 GenPhrase is a secure passphrase generator for PHP applications. GenPhrase is
 based on passwdqc's pwqgen program. See http://www.openwall.com/passwdqc/
@@ -14,29 +16,19 @@ passphrases. For example output, see [examples](#what-kind-of-passphrases-genphr
 GenPhrase can use arbitrary size wordlists. Words for a passphrase are selected
 uniformly at random from the wordset.
 
-GenPhrase has a series of small security bug bounties. For more information, see
-[GenPhrase Security Bug Bounties](http://timoh6.github.io/2014/08/20/GenPhrase-security-bug-bounties.html).
-
 
 Requirements
 ------------
 
-GenPhrase requires PHP version 5.3 or greater with BC Math (--enable-bcmath).
-mbstring extension must be available if words are modified (e.g. capitalized).
-
-__HHVM compatibility__
-
-HipHop VM v2.3 and later is confirmed to support GenPhrase. Earlier versions
-of HHVM may work as well.
+GenPhrase requires PHP version 8.3 or greater. See `composer.json` for all requirements.
 
 
 Installation
 ------------
 
-GenPhrase supports installation using Composer, but make sure you use at least Composer version 1.0.0-beta1
-to install GenPhrase (Composer was vulnerable to MITM attacks before 1.0.0-beta1):
+GenPhrase supports installation using Composer:
 
-[genphrase/genphrase ](https://packagist.org/packages/genphrase/genphrase)
+[drenso/genphrase ](https://packagist.org/packages/drenso/genphrase)
 
 
 Passphrase generation with GenPhrase
@@ -87,13 +79,7 @@ Usage
 
 ``` php
 <?php
-require '/path/to/library/GenPhrase/Loader.php';
-$loader = new GenPhrase\Loader();
-$loader->register();
-```
-``` php
-<?php
-$gen = new GenPhrase\Password();
+$gen = new Drenso\GenPhrase\Password();
 
 // Generate a passphrase using english words and (at least) 50 bits of entropy.
 $gen->generate();
@@ -167,8 +153,3 @@ In terms of entropy, this means we are actually doubling the "unique element cou
 "Apple"):
 `log2(2 * count_of_elements)`
 
-
-Issues or questions?
---------------------
-
-Mail me at timoh6@gmail.com or use GitHub.
