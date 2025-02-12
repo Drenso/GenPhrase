@@ -8,7 +8,7 @@ use Rector\Php81\Rector\Property\ReadOnlyPropertyRector;
 
 return RectorConfig::configure()
   ->withCache('./var/cache/rector', FileCacheStorage::class)
-  ->withPaths([__DIR__ . '/src'])
+  ->withPaths([__DIR__ . '/src', __DIR__ . '/tests'])
   ->withParallel(timeoutSeconds: 180, jobSize: 10)
   ->withImportNames()
   ->withSkip([

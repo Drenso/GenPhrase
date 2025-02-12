@@ -46,5 +46,5 @@ return (new PhpCsFixer\Config())
     ->setFinder(
         PhpCsFixer\Finder::create()
             ->in(__DIR__ . DIRECTORY_SEPARATOR . 'src')
-            ->files()->notName('Configuration.php')
+            ->in(__DIR__ . DIRECTORY_SEPARATOR . 'tests')
     );
