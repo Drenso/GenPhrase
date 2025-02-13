@@ -132,6 +132,20 @@ class Password
     return $this;
   }
 
+  public function addDicewareWordList(): static
+  {
+    $this->wordlistHandler->addWordlist('diceware.lst', 'diceware');
+
+    return $this;
+  }
+
+  public function removeDefaultWordList(): static
+  {
+    $this->wordlistHandler->removeWordlist('default');
+
+    return $this;
+  }
+
   public function removeWordlist(string $identifier): static
   {
     $this->wordlistHandler->removeWordlist($identifier);

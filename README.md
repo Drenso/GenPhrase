@@ -91,13 +91,17 @@ $gen->generate(46);
 // Remove the default (english) wordlist. This is because we want to use only
 // the Diceware list. If you add a new wordlist, but you do not remove the
 // default wordlist, then GenPhrase will combine those wordlists.
+$gen->removeDefaultWordList();
+// You can also remove any other list
 $gen->removeWordlist('default');
 
-// Add Diceware wordlist.
-// $gen->addWordlist('/path/to/GenPhrase/Wordlists/diceware.lst', 'diceware');
-// Or more simply (if you give just a filename, GenPhrase will look this
-// filename from "Wordlists" folder automatically):
-$gen->addWordlist('diceware.lst', 'diceware');
+// Add bundled Diceware wordlist.
+$gen->addDicewareWordList();
+// You can add your own wordlist as well.
+$gen->addWordlist('/path/to/custom.lst', 'custom');
+// If the supplied path does not contain a directory seperator, it will try to load from the bundled lists
+$gen->addWordlist('default.lst', 'default');
+
 // When creating Diceware phrases, it is recommended not to capitalize any
 // words and not to add separator characters (except space, which gets automatically added). To make that
 // happen, we configure GenPhrase a little bit more:
