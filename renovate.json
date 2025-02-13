@@ -4,7 +4,7 @@
     "local>intern/renovate-config"
   ],
   "packageRules": [{
-    "matchPackageNames": ["friendsofphp/php-cs-fixer", "phpstan/phpstan", "rector/rector"],
+    "matchPackageNames": ["friendsofphp/php-cs-fixer", "phpstan/phpstan", "phpunit/phpunit", "rector/rector"],
     "rangeStrategy": "pin"
   }],
   "rangeStrategy": "widen"
