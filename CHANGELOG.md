@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+* 2.1.0
+
+  * Changed interfaces to allow for fluent interaction. You will need to adjust your own implementation if you override class methods or implement `WordlistHandlerInterface`. 
+
 * 2.0.0
 
   * New namespace: Drenso/GenPhrase

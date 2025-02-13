@@ -86,7 +86,7 @@ class Filesystem implements WordlistHandlerInterface
    * @param string $path       the filesystem path to the file
    * @param string $identifier the identifier to identify this file
    */
-  public function addWordlist(string $path, string $identifier): void
+  public function addWordlist(string $path, string $identifier): static
   {
     if (!str_contains($path, DIRECTORY_SEPARATOR)) {
       $path = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Wordlists' . DIRECTORY_SEPARATOR . $path;
@@ -94,19 +94,25 @@ class Filesystem implements WordlistHandlerInterface
 
     $this->wordlists[$identifier] = $path;
     $this->setIsCached(false);
+
+    return $this;
   }
 
-  public function removeWordlist(string $identifier): void
+  public function removeWordlist(string $identifier): static
   {
     if (isset($this->wordlists[$identifier])) {
       unset($this->wordlists[$identifier]);
     }
     $this->setIsCached(false);
+
+    return $this;
   }
 
-  public function setIsCached(bool $isCached): void
+  public function setIsCached(bool $isCached): static
   {
     self::$isCached = $isCached;
+
+    return $this;
   }
 
   /** @return false|list<string> */

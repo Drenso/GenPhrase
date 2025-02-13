@@ -135,15 +135,19 @@ class Random implements RandomInterface
     return true;
   }
 
-  public function setPowerOfTwo(int $powerOfTwo): void
+  public function setPowerOfTwo(int $powerOfTwo): static
   {
     $this->checkPowerOfTwo($powerOfTwo);
     $this->powerOfTwo = $powerOfTwo;
+
+    return $this;
   }
 
-  public function setMaxPoolSize(int $maxPoolSize): void
+  public function setMaxPoolSize(int $maxPoolSize): static
   {
     $this->checkPowerOfTwo(null, $maxPoolSize);
     $this->maxPoolSize = $maxPoolSize;
+
+    return $this;
   }
 }

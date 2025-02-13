@@ -10,7 +10,7 @@ interface WordlistHandlerInterface
   /** @return list<string> */
   public function getWordsAsArray(): array;
 
-  public function addWordlist(string $path, string $identifier): void;
+  public function addWordlist(string $path, string $identifier): static;
 
-  public function removeWordlist(string $identifier): void;
+  public function removeWordlist(string $identifier): static;
 }

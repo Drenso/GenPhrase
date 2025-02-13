@@ -60,7 +60,6 @@ class Password
    */
   public function generate(float $bits = 50.0): string
   {
-    $bits          = (float)$bits;
     $separators    = $this->getSeparators();
     $separatorBits = $this->precisionFloat(log(strlen($separators), 2));
     $passPhrase    = '';
@@ -126,14 +125,18 @@ class Password
     return $passPhrase;
   }
 
-  public function addWordlist(string $path, string $identifier): void
+  public function addWordlist(string $path, string $identifier): static
   {
     $this->wordlistHandler->addWordlist($path, $identifier);
+
+    return $this;
   }
 
-  public function removeWordlist(string $identifier): void
+  public function removeWordlist(string $identifier): static
   {
     $this->wordlistHandler->removeWordlist($identifier);
+
+    return $this;
   }
 
   /** @throws InvalidArgumentException */
@@ -162,27 +165,35 @@ class Password
    * Must be unique single-byte characters.
    * I.e. setSeparators('123456789-').
    */
-  public function setSeparators(string $separators): void
+  public function setSeparators(string $separators): static
   {
     $this->separators = $separators;
+
+    return $this;
   }
 
   /** Sets whether to use separators regardless of makesSenseToUseSeparators. */
-  public function alwaysUseSeparators(bool $alwaysUseSeparators): void
+  public function alwaysUseSeparators(bool $alwaysUseSeparators): static
   {
     $this->alwaysUseSeparators = $alwaysUseSeparators;
+
+    return $this;
   }
 
   /** Sets whether to use separator characters or not. */
-  public function disableSeparators(bool $disableSeparators): void
+  public function disableSeparators(bool $disableSeparators): static
   {
     $this->disableSeparators = $disableSeparators;
+
+    return $this;
   }
 
   /** Sets whether to use word modifier or not. */
-  public function disableWordModifier(bool $disableWordModifier): void
+  public function disableWordModifier(bool $disableWordModifier): static
   {
     $this->disableWordModifier = $disableWordModifier;
+
+    return $this;
   }
 
   public function getEncoding(): string
@@ -191,9 +202,11 @@ class Password
   }
 
   /** The encoding identifier, for example: ISO-8859-1. */
-  public function setEncoding(string $encoding): void
+  public function setEncoding(string $encoding): static
   {
     $this->encoding = $encoding;
+
+    return $this;
   }
 
   /** Detects whether it is sensible to use separator characters. */
