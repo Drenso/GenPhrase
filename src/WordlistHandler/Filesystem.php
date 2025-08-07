@@ -23,10 +23,10 @@ class Filesystem implements WordlistHandlerInterface
   protected static array $words = [];
 
   /**
-   * @param null|array{
+   * @param array{
    *   path: string,
    *   identifier: string,
-   * } $wordlist e.g. array('path' => '/some/path/to/wordlist', 'identifier' => 'some_id').
+   * }|null $wordlist e.g. array('path' => '/some/path/to/wordlist', 'identifier' => 'some_id').
    */
   public function __construct(?array $wordlist = null)
   {
