@@ -15,7 +15,7 @@
   "require-dev": {
     "friendsofphp/php-cs-fixer": "3.86.0",
     "phpstan/phpstan": "2.1.22",
-    "phpunit/phpunit": "12.3.6",
+    "phpunit/phpunit": "12.3.7",
     "rector/rector": "2.1.4"
   },
   "autoload": {
