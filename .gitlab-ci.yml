@@ -39,32 +39,32 @@ install-dependencies:
   before_script:
     - /bin/true
   except:
-    - master
+    - main
     - tags
 
 composer-require-checker:
   except:
     - schedules
     - tags
-    - master
+    - main
 
 composer-unused:
   except:
     - schedules
     - tags
-    - master
+    - main
 
 phpunit:
   except:
     - schedules
     - tags
-    - master
+    - main
 
 deploy-staging:
   rules:
     - if: $CI_PIPELINE_SOURCE == "schedule" || $CI_PIPELINE_SOURCE == "merge_request_event"
       when: never
-    - if: $CI_COMMIT_REF_NAME == "master" || $CI_COMMIT_BRANCH
+    - if: $CI_COMMIT_REF_NAME == "main" || $CI_COMMIT_BRANCH
       when: on_success
     - when: never
 
