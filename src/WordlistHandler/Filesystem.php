@@ -71,9 +71,8 @@ class Filesystem implements WordlistHandlerInterface
       $this->setIsCached(true);
 
       return self::$words;
-    } else {
-      throw new RuntimeException('No wordlists available');
     }
+    throw new RuntimeException('No wordlists available');
   }
 
   /**

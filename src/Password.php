@@ -169,9 +169,8 @@ class Password
 
     if (strlen($separators_string) > 0) {
       return $separators_string;
-    } else {
-      throw new InvalidArgumentException('Separator characters must contain at least one unique character.');
     }
+    throw new InvalidArgumentException('Separator characters must contain at least one unique character.');
   }
 
   /**
