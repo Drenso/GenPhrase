@@ -72,6 +72,7 @@ class Filesystem implements WordlistHandlerInterface
 
       return self::$words;
     }
+
     throw new RuntimeException('No wordlists available');
   }
 
