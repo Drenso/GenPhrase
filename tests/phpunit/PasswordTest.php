@@ -101,9 +101,8 @@ class PasswordTest extends TestCase
   public function testNotEnoughWordsThrowsException(): void
   {
     $this->expectException(RuntimeException::class);
-    $wordlistHandler = $this->createMock(Filesystem::class);
+    $wordlistHandler = $this->createStub(Filesystem::class);
     $wordlistHandler
-      ->expects($this->any())
       ->method('getWordsAsArray')
       ->willReturn(['a']);
 
@@ -123,25 +122,21 @@ class PasswordTest extends TestCase
 
   public function testGenerateReturnsExpectedStrings(): void
   {
-    $wordlistHandler = $this->createMock(Filesystem::class);
+    $wordlistHandler = $this->createStub(Filesystem::class);
     $wordlistHandler
-      ->expects($this->any())
       ->method('getWordsAsArray')
       ->willReturn($this->testWords);
 
-    $wordModifier = $this->createMock(MbToggleCaseFirst::class);
+    $wordModifier = $this->createStub(MbToggleCaseFirst::class);
     $wordModifier
-      ->expects($this->any())
       ->method('modify')
       ->willReturn('test');
     $wordModifier
-      ->expects($this->any())
       ->method('getWordCountMultiplier')
       ->willReturn(1);
 
-    $randomProvider = $this->createMock(Random::class);
+    $randomProvider = $this->createStub(Random::class);
     $randomProvider
-      ->expects($this->any())
       ->method('getElement')
       ->willReturn(0);
 
@@ -187,25 +182,21 @@ class PasswordTest extends TestCase
 
   public function testAlwaysUseSeparators(): void
   {
-    $wordlistHandler = $this->createMock(Filesystem::class);
+    $wordlistHandler = $this->createStub(Filesystem::class);
     $wordlistHandler
-      ->expects($this->any())
       ->method('getWordsAsArray')
       ->willReturn($this->testWords);
 
-    $wordModifier = $this->createMock(MbToggleCaseFirst::class);
+    $wordModifier = $this->createStub(MbToggleCaseFirst::class);
     $wordModifier
-      ->expects($this->any())
       ->method('modify')
       ->willReturn('test');
     $wordModifier
-      ->expects($this->any())
       ->method('getWordCountMultiplier')
       ->willReturn(1);
 
-    $randomProvider = $this->createMock(Random::class);
+    $randomProvider = $this->createStub(Random::class);
     $randomProvider
-      ->expects($this->any())
       ->method('getElement')
       ->willReturn(0);
 
