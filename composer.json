@@ -13,7 +13,7 @@
     "ext-random": "*"
   },
   "require-dev": {
-    "friendsofphp/php-cs-fixer": "3.94.2",
+    "friendsofphp/php-cs-fixer": "3.95.1",
     "phpstan/phpstan": "2.1.46",
     "phpunit/phpunit": "13.1.3",
     "rector/rector": "2.4.1"
