@@ -16,7 +16,7 @@
     "friendsofphp/php-cs-fixer": "3.95.25",
     "phpstan/phpstan": "2.2.14",
     "phpunit/phpunit": "13.3.3",
-    "rector/rector": "2.6.6"
+    "rector/rector": "2.6.7"
   },
   "autoload": {
     "psr-4": {
